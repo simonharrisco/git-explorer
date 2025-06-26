@@ -1,9 +1,9 @@
-// --- Chart Dimensions --- (THESE LINES WERE MISSING)
+// --- Chart Dimensions ---
 const width = 960;
 const height = 960;
 const margin = 10;
 
-// --- D3 Setup --- (THIS SVG SETUP WAS ALSO MISSING)
+// --- D3 Setup ---
 const svg = d3
   .select("#chart-container")
   .append("svg")
@@ -18,14 +18,16 @@ const slider = d3.select("#commit-slider");
 const playPauseBtn = d3.select("#play-pause-btn");
 const speedSlider = d3.select("#speed-slider");
 const filterJsonCheckbox = d3.select("#filter-json");
-const filterImagesCheckbox = d3.select("#filter-images");
+const filterMediaCheckbox = d3.select("#filter-media");
 
 // --- State Variables & Helpers ---
 let historyData = [];
 let isPlaying = false;
 let animationTimer = null;
 let animationDelay = 500;
-const imageExtensions = [
+
+const mediaExtensions = [
+  // Images
   ".png",
   ".jpg",
   ".jpeg",
@@ -34,6 +36,18 @@ const imageExtensions = [
   ".webp",
   ".bmp",
   ".ico",
+  // Video
+  ".mp4",
+  ".mov",
+  ".avi",
+  ".mkv",
+  ".webm",
+  ".flv",
+  // Audio
+  ".mp3",
+  ".wav",
+  ".ogg",
+  ".flac",
 ];
 
 const getKey = (d) =>
@@ -48,7 +62,6 @@ function truncateText(text, maxLength) {
   return text.slice(0, maxLength - 3) + "...";
 }
 
-// --- Recursive function to filter the data tree ---
 function filterTree(node, filters) {
   if (!node.children) {
     const name = node.name.toLowerCase();
@@ -56,8 +69,8 @@ function filterTree(node, filters) {
       return null;
     }
     if (
-      filters.hideImages &&
-      imageExtensions.some((ext) => name.endsWith(ext))
+      filters.hideMedia &&
+      mediaExtensions.some((ext) => name.endsWith(ext))
     ) {
       return null;
     }
@@ -88,7 +101,7 @@ function drawChart(commitData) {
 
   const filters = {
     hideJson: filterJsonCheckbox.property("checked"),
-    hideImages: filterImagesCheckbox.property("checked"),
+    hideMedia: filterMediaCheckbox.property("checked"),
   };
 
   const originalTree = JSON.parse(JSON.stringify(tree));
@@ -226,7 +239,7 @@ async function main() {
       slider.property("disabled", false);
       playPauseBtn.property("disabled", false);
       filterJsonCheckbox.property("disabled", false);
-      filterImagesCheckbox.property("disabled", false);
+      filterMediaCheckbox.property("disabled", false);
 
       slider
         .attr("min", 0)
@@ -255,7 +268,7 @@ async function main() {
         drawChart(historyData[+slider.property("value")]);
       };
       filterJsonCheckbox.on("change", redrawCurrentCommit);
-      filterImagesCheckbox.on("change", redrawCurrentCommit);
+      filterMediaCheckbox.on("change", redrawCurrentCommit);
     } else {
       commitInfo.text("No history data found. Is the repository empty?");
     }

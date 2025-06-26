@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Git Codebase Visualization</title>
     <style>
-      /* ... (existing styles are unchanged) ... */
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           Helvetica, Arial, sans-serif;
@@ -43,7 +42,7 @@
         font-size: 14px;
         color: #333;
         text-align: center;
-        min-height: 3em;
+        min-height: 3em; /* Prevent layout shift */
       }
       .playback-controls {
         display: flex;
@@ -64,7 +63,6 @@
         align-items: center;
         gap: 10px;
       }
-      /* New styles for filter controls */
       .filter-controls {
         display: flex;
         justify-content: center;
@@ -94,15 +92,14 @@
         </div>
       </div>
 
-      <!-- New Filter Controls -->
       <div class="filter-controls">
         <label>
           <input type="checkbox" id="filter-json" disabled />
           Hide .json files
         </label>
         <label>
-          <input type="checkbox" id="filter-images" disabled />
-          Hide image files
+          <input type="checkbox" id="filter-media" disabled />
+          Hide media files
         </label>
       </div>
 
