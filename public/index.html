@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git Codebase Visualization</title>
+    <style>
+      /* ... (existing styles are unchanged) ... */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      #chart-container {
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+      .controls {
+        margin: 20px;
+        padding: 15px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 960px;
+        box-sizing: border-box;
+      }
+      .slider-container {
+        margin-top: 15px;
+      }
+      #commit-slider {
+        width: 100%;
+      }
+      #commit-info {
+        margin-top: 10px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 14px;
+        color: #333;
+        text-align: center;
+        min-height: 3em;
+      }
+      .playback-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 15px;
+      }
+      #play-pause-btn {
+        padding: 8px 16px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+      .speed-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      /* New styles for filter controls */
+      .filter-controls {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Codebase Growth</h1>
+    <div id="chart-container"></div>
+    <div class="controls">
+      <div class="playback-controls">
+        <button id="play-pause-btn" disabled>Play</button>
+        <div class="speed-control">
+          <label for="speed-slider">Speed:</label>
+          <input
+            type="range"
+            id="speed-slider"
+            min="50"
+            max="1500"
+            value="500"
+            step="50"
+          />
+        </div>
+      </div>
+
+      <!-- New Filter Controls -->
+      <div class="filter-controls">
+        <label>
+          <input type="checkbox" id="filter-json" disabled />
+          Hide .json files
+        </label>
+        <label>
+          <input type="checkbox" id="filter-images" disabled />
+          Hide image files
+        </label>
+      </div>
+
+      <div class="slider-container">
+        <input
+          type="range"
+          id="commit-slider"
+          min="0"
+          max="100"
+          value="0"
+          disabled
+        />
+        <div id="commit-info">Loading commit data...</div>
+      </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
